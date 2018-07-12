@@ -16,13 +16,14 @@ func main() {
 
     fmt.Println("/* ========== ブラックジャック ========== */")
 
-    var card Card
-    card = PlayCard(&player, &deck)
-    PrintDrawCard(player, card)
-    PrintScore(player)
+    PrintDrawCard(player, PlayCard(&player, &deck))
+    PrintDrawCard(player, PlayCard(&player, &deck))
 
-    card = PlayCard(&dealer, &deck)
-    PrintDrawCard(dealer, card)
+    PrintDrawCard(dealer, PlayCard(&dealer, &deck))
+    PlayCard(&dealer, &deck)
+    fmt.Println("ディーラーは2枚目のカードを引きました。")
+
+    PrintScore(player)
 
     for {
         if player.Stanted == true && dealer.Stanted == true {
@@ -40,10 +41,8 @@ func main() {
             input := stdin.Text()
 
             if input == "Y" {
-                card = PlayCard(&player, &deck)
+                card := PlayCard(&player, &deck)
                 PrintDrawCard(player, card)
-                PrintScore(player)
-
                 if player.Score > 21 {
                     fmt.Println("バーストしました！")
                     break
@@ -52,6 +51,7 @@ func main() {
                 player.Stanted = true
                 fmt.Println("パスしました。")
             }
+            PrintScore(player)
         }
 
         if dealer.Stanted == false && player.Score < 22 {
@@ -64,7 +64,6 @@ func main() {
             }
         }
     }
-
     PrintScore(player)
     PrintScore(dealer)
 
